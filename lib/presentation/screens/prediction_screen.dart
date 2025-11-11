@@ -19,7 +19,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
   final _dpfController = TextEditingController();
 
   bool _isPredicting = false;
-  DiabetesResult? _prediction;
+  int? _prediction; // 0 or 1
 
   void _predict() {
     if (!_formKey.currentState!.validate()) return;
@@ -49,7 +49,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
       );
 
       setState(() {
-        _prediction = _prediction = result;
+        _prediction = result.prediction; // 0 or 1
         _isPredicting = false;
       });
     });
@@ -72,7 +72,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
       backgroundColor: const Color(0xFFF7F9FC),
       appBar: AppBar(
         title: const Text(
-          'Diabetes Predictor',
+          'Diabetes Predictor🩺',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
@@ -100,12 +100,13 @@ class _PredictionScreenState extends State<PredictionScreen> {
       child: Form(
         key: _formKey,
         child: ListView(
+          physics: const BouncingScrollPhysics(),
           children: [
             const SizedBox(height: 12),
             InputField(
               controller: _ageController,
               label: 'Age',
-              hint: ' 10 – 80',
+              hint: '10 – 80',
             ),
             InputField(
               controller: _glucoseController,
@@ -158,9 +159,11 @@ class _PredictionScreenState extends State<PredictionScreen> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          Expanded(child: ResultCard(result: _prediction!)),
+          Expanded(
+            child: ResultCard(riskLevel: _prediction! == 1 ? 0.85 : 0.15),
+          ),
           const SizedBox(height: 16),
-          ElevatedButton(
+          ElevatedButton.icon(
             onPressed: () {
               setState(() {
                 _prediction = null;
@@ -170,7 +173,8 @@ class _PredictionScreenState extends State<PredictionScreen> {
                 _dpfController.clear();
               });
             },
-            child: Text('Predict Again'),
+            icon: const Icon(Icons.arrow_back),
+            label: const Text('Predict Again'),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF4361EE),
               foregroundColor: Colors.white,

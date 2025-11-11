@@ -1,28 +1,18 @@
-import 'package:diabetes_predictor_application/data/rules.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class ResultCard extends StatelessWidget {
-  final DiabetesResult result;
+  final double riskLevel; // 0 = Low, 1 = High
 
-  const ResultCard({super.key, required this.result});
+  const ResultCard({super.key, required this.riskLevel});
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(double riskLevel) {
-      if (riskLevel < 0.4) return Colors.green;
-      if (riskLevel < 0.7) return Colors.orange;
-      return Colors.red;
-    }
-
-    String getLabel(double riskLevel) {
-      if (riskLevel < 0.4) return "Low Risk";
-      if (riskLevel < 0.7) return "Medium Risk";
-      return "High Risk";
-    }
-
-    final color = getColor(result.riskLevel);
-    final label = getLabel(result.riskLevel);
+    final isHighRisk = riskLevel >= 0.5;
+    final color = isHighRisk ? Colors.red : Colors.green;
+    final label = isHighRisk
+        ? "High Risk / Diabetes"
+        : "Low Risk / No Diabetes";
 
     return Card(
       margin: const EdgeInsets.all(16),
@@ -38,7 +28,6 @@ class ResultCard extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 24),
-
             SizedBox(
               height: 200,
               child: SfRadialGauge(
@@ -50,29 +39,21 @@ class ResultCard extends StatelessWidget {
                     showTicks: false,
                     axisLineStyle: AxisLineStyle(
                       thickness: 0.1,
-                      color: Colors.grey[300]!,
+                      color: Colors.grey,
                       thicknessUnit: GaugeSizeUnit.factor,
                       cornerStyle: CornerStyle.bothCurve,
                     ),
                     ranges: [
                       GaugeRange(
                         startValue: 0,
-                        endValue: 0.4,
+                        endValue: 0.5,
                         color: Colors.greenAccent,
                         startWidth: 0.1,
                         endWidth: 0.1,
                         sizeUnit: GaugeSizeUnit.factor,
                       ),
                       GaugeRange(
-                        startValue: 0.4,
-                        endValue: 0.7,
-                        color: Colors.orangeAccent,
-                        startWidth: 0.1,
-                        endWidth: 0.1,
-                        sizeUnit: GaugeSizeUnit.factor,
-                      ),
-                      GaugeRange(
-                        startValue: 0.7,
+                        startValue: 0.5,
                         endValue: 1,
                         color: Colors.redAccent,
                         startWidth: 0.1,
@@ -82,7 +63,7 @@ class ResultCard extends StatelessWidget {
                     ],
                     pointers: [
                       MarkerPointer(
-                        value: result.riskLevel,
+                        value: riskLevel,
                         markerType: MarkerType.triangle,
                         color: color,
                         markerHeight: 20,
@@ -93,11 +74,9 @@ class ResultCard extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 16),
-
             Text(
-              "${(result.riskLevel * 100).round()}% Risk",
+              "${(riskLevel * 100).round()}%",
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -105,7 +84,6 @@ class ResultCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-
             Text(
               label,
               style: TextStyle(
