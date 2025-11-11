@@ -15,7 +15,6 @@ A simple **Diabetes Risk Predictor** mobile app built with **Flutter** that uses
 * **Interactive Gauge** showing risk level visually:
 
   * Low Risk (Green)
-  * Medium Risk (Orange)
   * High Risk (Red)
 * Percentage and label below the Gauge update dynamically with the result.
 * Supports **Light & Dark Mode** based on the user’s device theme.
