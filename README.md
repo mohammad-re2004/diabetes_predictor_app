@@ -24,15 +24,13 @@ A simple **Diabetes Risk Predictor** mobile app built with **Flutter** that uses
 
 ---
 
-## Demo
-
-![App Demo](assets/2.gif)
-
----
 
 ## Screenshots
 
 *Optional: add screenshots here if needed*
+![App Screenshot](assets/sc1.png)
+![App Screenshot](assets/sc2.png)
+![App Screenshot](assets/sc3.png)
 
 ---
 
@@ -78,7 +76,6 @@ flutter run
 | Risk Level | Age | Glucose | BMI | DPF |
 | ---------- | --- | ------- | --- | --- |
 | Low        | 25  | 90      | 22  | 0.2 |
-| Medium     | 35  | 120     | 30  | 0.5 |
 | High       | 50  | 160     | 45  | 0.6 |
 
 ---
