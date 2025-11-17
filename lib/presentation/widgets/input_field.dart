@@ -17,7 +17,7 @@ class InputField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
-        style: TextStyle(fontFamily: "GR"),
+        style: TextStyle(fontFamily: "GR", fontWeight: FontWeight.bold),
         controller: controller,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         validator: (value) {
